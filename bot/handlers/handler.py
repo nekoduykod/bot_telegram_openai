@@ -1,69 +1,101 @@
-import logging
-from collections import defaultdict
-
-from aiogram.filters import Command
-from aiogram import Router, types, F
+from aiogram import Dispatcher, types
+from aiogram.dispatcher.filters import Command
+from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.dispatcher import FSMContext
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.utils.markdown import hbold
-from aiogram.utils.keyboard import ReplyKeyboardBuilder
+from aiogram.types import Message
 
 from bot_instance import bot
 from bot.keyboards import locations_kb
+
 import openai
 
 
-logging.basicConfig(level=logging.INFO)
+storage = MemoryStorage()
+dp = Dispatcher(bot, storage=storage) 
 
 
-user_router = Router()
+class DialogueStates(StatesGroup):
+    Location = State() # Will be represented in storage as 'DialogueStates:Location'
+    Checklist = State() # Will be represented in storage as 'DialogueStates:Checklist'
+    WaitingForChoice = State()
 
 
-user_responses = defaultdict(lambda: {"Location": None, "Checklist": [], "Photo": None})
+class ChecklistState(StatesGroup):
+    waiting_for_choice = State()
 
 
-@user_router.message(Command('start'))
-async def welcome(message: types.Message) -> None:
-    """ Process the command 'start' """
+@dp.message_handler(Command('start'))
+async def welcome(message: types.Message, state: FSMContext) -> None:
+    """ the command 'start' """
     reply_text = f'{hbold(message.from_user.first_name)}, ласкаво прошу. Почнімо'
 
-    await message.answer(
+    await bot.send_message(
+        message.chat.id,
         text=reply_text,
         reply_markup=locations_kb.menu
     )
 
+    await DialogueStates.Location.set()
 
-@user_router.message(F.text == 'Location 1') # equals lambda message: message.text == 'Location 1'
-async def choose_location(message: types.Message):  # TODO reply_markup=ReplyKeyboardRemove()
+
+@dp.message_handler(lambda message: message.text == 'Location 1', state=DialogueStates.Location)
+async def choose_location(message: types.Message, state: FSMContext):
     location = message.text
-    
-    user_id = message.from_user.id
-    if user_id not in user_responses:
-        user_responses[user_id] = {"Location": None, "Checklist": {}, "Photo": None}
+    await state.update_data(location=location)
 
-    user_responses[user_id]["Location"] = location
-    await message.answer(f"{location}. \n Чекліст! \
-                         Введи 1 - Залишити чистим | 2 - Залишити коментар.")
-
+    await bot.send_message(message.chat.id, text = f"{location}. Чекліст! Введіть 1 - Залишити чистим | 2 - Залишити коментар.")
     # Present the checklist
     checklist = [{"Item": item, "Response": None} for item in ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]]
-    
+    await state.update_data(checklist=checklist)
+
+    # Call the functions for each item in the checklist
     for item in checklist:
-        await message.answer(f"{item['Item']}, введіть цифру 1 | 2:")
-        user_choice = message.text
-        if user_choice == '2':
-            await message.answer(f"Будь ласка, залиши коментар.")
-            user_input = message.text
-            item["Response"] = user_input
-        else:
-            pass
-    
-    user_responses[user_id]["Checklist"] = checklist
-    print(user_responses)
+        await process_item(message, state, item)
 
-#     # for item in checklist:
-#     await message.answer(f"{checklist[0]['Item']}, введіть цифру 1 | 2:")
+    await DialogueStates.WaitingForChoice.set()
 
 
-# @user_router.message(lambda message: message.text in ['1', '2']) # (F.text.in_(['1', '2']))
+async def process_item(message: types.Message, state: FSMContext, item):
+    await bot.send_message(message.chat.id, text = f"{item['Item']}, введіть цифру 1 | 2:")
+    user_choice = await bot.wait_for_new_message(chat_id=message.chat.id)
+
+    if user_choice.text == '2':
+        await bot.send_message(message.chat.id, text = f"Будь ласка, залиши коментар.")
+        user_input = await bot.wair_for(chat_id=message.chat.id)
+        item["Response"] = user_input.text
+    else:
+        pass
+
+# @dp.message_handler(state='*')
+# async def process_checklist(message: types.Message, state: FSMContext):
+#     user_choice = message.text
+#     if user_choice == '2':
+#         await bot.send_message(message.chat.id, text = f"Будь ласка, залиши коментар.")
+#         user_input = message.text
+#         checklist = await state.get_data()
+#         for item in checklist['checklist']:
+#             if item['Item'] == checklist['location']:
+#                 item["Response"] = user_input
+#                 break
+#     await state.finish()
+
+
+    # for item in checklist:
+    #     await message.answer(f"{item['Item']}, введіть цифру 1 | 2:")
+    #     user_choice = message.text
+    #     if user_choice == '2':
+    #         await message.answer(f"Будь ласка, залиши коментар.")
+    #         user_input = message.text
+    #         item["Response"] = user_input
+    #     else:
+    #         pass
+
+    # print(user_responses)
+
+ 
+# @dp.message.message(lambda message: message.text in ['1', '2']) # (F.text.in_(['1', '2']))
 # async def handle_checklist_item(message: types.Message):
 #     user_id = message.from_user.id
 #     current_checklist_item = user_responses[user_id]["Checklist"].pop(0)
@@ -76,7 +108,7 @@ async def choose_location(message: types.Message):  # TODO reply_markup=ReplyKey
 #         await message.answer(f"Будь ласка, залиши коментар {current_checklist_item['Item']}.")
 
 # ### !!!
-# @user_router.message(lambda message: user_responses[message.from_user.id].get("CommentState", False))
+# @dp.message.message(lambda message: user_responses[message.from_user.id].get("CommentState", False))
 # async def handle_checklist_comment(message: types.Message):
 #     user_id = message.from_user.id
 #     # Get the current checklist item
@@ -98,7 +130,7 @@ async def choose_location(message: types.Message):  # TODO reply_markup=ReplyKey
 #         await bot.send_message(user_id, "Бажаєте загрузити фото? Введіть 1 - пропустити, 2 - завантажу")
 
 
-# @user_router.message(lambda message: message.text in ["Upload a photo", "Skip photo"])
+# @dp.message.message(lambda message: message.text in ["Upload a photo", "Skip photo"])
 # async def handle_photo_upload(message: types.Message):
 #     user_id = message.from_user.id
 #     if message.text == '1':
@@ -118,7 +150,7 @@ async def choose_location(message: types.Message):  # TODO reply_markup=ReplyKey
 #     return report
 
 
-# @user_router.message(generate_report)
+# @dp.message(generate_report)
 # async def send_to_chatgpt(message: types.Message):
 #     user_id = message.from_user.id
 #     user_responses[user_id]["Photo"] = message.photo[-1].file_id

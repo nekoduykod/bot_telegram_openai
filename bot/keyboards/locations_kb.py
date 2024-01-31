@@ -1,6 +1,9 @@
-from aiogram.utils.keyboard import ReplyKeyboardBuilder
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
-
-# def keyboard():
-menu = ReplyKeyboardBuilder().button(text="Location 1").button(text="Location 2") \
-.button(text="Location 3").button(text="Location 4").button(text="Location 5").as_markup()
+menu = ReplyKeyboardMarkup(resize_keyboard=True).row(
+    KeyboardButton("Location 1"),
+    KeyboardButton("Location 2"),
+    KeyboardButton("Location 3"),
+    KeyboardButton("Location 4"),
+    KeyboardButton("Location 5")
+)
