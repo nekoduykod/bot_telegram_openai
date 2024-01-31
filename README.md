@@ -1,6 +1,5 @@
-aiogram is a modern and fully asynchronous framework for Telegram Bot API written in Python 3.8 using asyncio and aiohttp.
+aiogram is a modern and fully asynchronous framework for Telegram Bot API written in Python 3.8 using asyncio and aiohttp. I took a latest aiogram version
 
 Run these:
-pip install aiogram==2.25.1
-pip install openai
+pip install -r requirements.txt
 
