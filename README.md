@@ -18,3 +18,5 @@ py main.py ; open Telegram API bot and enjoy
 
 ## 
 Поки що не маю ChatGpt 4, щоб протестувати та зробити корекції.
+
+telegbot_aiogr3.3 папку проігноруйте.
