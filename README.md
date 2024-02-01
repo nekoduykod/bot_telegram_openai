@@ -17,6 +17,6 @@ py main.py ; open Telegram API bot and enjoy
 <img src="images/telegram_bot3.jpg"/>
 
 ## 
-Поки що не маю ChatGpt 4, щоб протестувати та зробити корекції.
+Поки що не маю ChatGpt 4, щоб відкорегувати/покращити ChatGPT запит/відповідь
 
 telegbot_aiogr3.3 папку проігноруйте.
