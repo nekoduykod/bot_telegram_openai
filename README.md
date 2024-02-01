@@ -15,3 +15,6 @@ py main.py ; open Telegram API bot and enjoy
 <img src="images/telegram_bot2.jpg"/>
 
 <img src="images/telegram_bot3.jpg"/>
+
+## 
+Поки що не маю ChatGpt 4, щоб протестувати та зробити корекції.
