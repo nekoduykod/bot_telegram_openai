@@ -70,12 +70,12 @@ async def process_item1(message: types.Message, state: FSMContext):
 async def process_item1_comment(message: types.Message, state: FSMContext):
     # Collect the comment for Item 1
     await state.update_data(item1_response=message.text)
+    await bot.send_message(message.chat.id, text="Item 2, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
     await ChecklistForm.Item2.set()
 
 
-@dp.message_handler(state=ChecklistForm.Item3)
+@dp.message_handler(state=ChecklistForm.Item2)
 async def process_item2(message: types.Message, state: FSMContext):
-    await bot.send_message(message.chat.id, text="Item 2, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
 
     if message.text == '1':
         await ChecklistForm.next()
@@ -83,13 +83,12 @@ async def process_item2(message: types.Message, state: FSMContext):
         await bot.send_message(message.chat.id, text="Залиште коментар для Item 2")
         user_comment = message.text
         await state.update_data(item2_response=user_comment)
+        await bot.send_message(message.chat.id, text="Item 3, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
         await ChecklistForm.next()
-
 
 
 @dp.message_handler(state=ChecklistForm.Item3)
 async def process_item3(message: types.Message, state: FSMContext):
-    await bot.send_message(message.chat.id, text="Item 3, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
 
     if message.text == '1':
         await ChecklistForm.next()
@@ -97,12 +96,12 @@ async def process_item3(message: types.Message, state: FSMContext):
         await bot.send_message(message.chat.id, text="Залиште коментар для Item 3")
         user_comment = message.text
         await state.update_data(item3_response=user_comment)
+        await bot.send_message(message.chat.id, text="Item 4, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
         await ChecklistForm.next()
 
 
 @dp.message_handler(state=ChecklistForm.Item4)
 async def process_item4(message: types.Message, state: FSMContext):
-    await bot.send_message(message.chat.id, text="Item 4, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
 
     if message.text == '1':
         await ChecklistForm.next()
@@ -110,12 +109,12 @@ async def process_item4(message: types.Message, state: FSMContext):
         await bot.send_message(message.chat.id, text="Залиште коментар для Item 4")
         user_comment = message.text
         await state.update_data(item4_response=user_comment)
+        await bot.send_message(message.chat.id, text="Item 5, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
         await ChecklistForm.next()
 
 
 @dp.message_handler(state=ChecklistForm.Item5)
 async def process_item5(message: types.Message, state: FSMContext):
-    await bot.send_message(message.chat.id, text="Item 5, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
 
     if message.text == '1':
         await bot.send_message(message.chat.id, text="Чекліст завершено. Обробка результатів...")
