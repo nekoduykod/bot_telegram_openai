@@ -29,6 +29,8 @@ class ChecklistForm(StatesGroup):
     Item4_comment = State()
     Item5 = State()
     Item5_comment = State()
+    Photo = State()
+    Photo_processing = State()
 
 
 @dp.message_handler(Command('start'))
@@ -58,17 +60,14 @@ async def choose_location(message: types.Message, state: FSMContext):
 @dp.message_handler(state=ChecklistForm.Item1)
 async def process_item1(message: types.Message, state: FSMContext):
     if message.text == '1':
-        # Go to the next item
         await ChecklistForm.next()
     elif message.text == '2':
         await bot.send_message(message.chat.id, text="Залиште коментар для Item 1")
-        # Set the state to collect comments for Item 1
         await state.set_state(ChecklistForm.Item1_comment)
         await state.update_data(item1_response=None)
 
 @dp.message_handler(state=ChecklistForm.Item1_comment)
 async def process_item1_comment(message: types.Message, state: FSMContext):
-    # Collect the comment for Item 1
     await state.update_data(item1_response=message.text)
     await bot.send_message(message.chat.id, text="Item 2, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
     await ChecklistForm.Item2.set()
@@ -76,55 +75,82 @@ async def process_item1_comment(message: types.Message, state: FSMContext):
 
 @dp.message_handler(state=ChecklistForm.Item2)
 async def process_item2(message: types.Message, state: FSMContext):
-
     if message.text == '1':
         await ChecklistForm.next()
     elif message.text == '2':
         await bot.send_message(message.chat.id, text="Залиште коментар для Item 2")
-        user_comment = message.text
-        await state.update_data(item2_response=user_comment)
-        await bot.send_message(message.chat.id, text="Item 3, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
-        await ChecklistForm.next()
+        await state.set_state(ChecklistForm.Item2_comment)
+        await state.update_data(item2_response=None)
+
+@dp.message_handler(state=ChecklistForm.Item2_comment)
+async def process_item2_comment(message: types.Message, state: FSMContext):
+    await state.update_data(item2_response=message.text)
+    await bot.send_message(message.chat.id, text="Item 3, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
+    await ChecklistForm.Item3.set()
 
 
 @dp.message_handler(state=ChecklistForm.Item3)
 async def process_item3(message: types.Message, state: FSMContext):
-
     if message.text == '1':
         await ChecklistForm.next()
     elif message.text == '2':
         await bot.send_message(message.chat.id, text="Залиште коментар для Item 3")
-        user_comment = message.text
-        await state.update_data(item3_response=user_comment)
-        await bot.send_message(message.chat.id, text="Item 4, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
-        await ChecklistForm.next()
+        await state.set_state(ChecklistForm.Item3_comment)
+        await state.update_data(item3_response=None)
+
+@dp.message_handler(state=ChecklistForm.Item3_comment)
+async def process_item3_comment(message: types.Message, state: FSMContext):
+    await state.update_data(item3_response=message.text)
+    await bot.send_message(message.chat.id, text="Item 4, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
+    await ChecklistForm.Item4.set()
 
 
 @dp.message_handler(state=ChecklistForm.Item4)
 async def process_item4(message: types.Message, state: FSMContext):
-
     if message.text == '1':
         await ChecklistForm.next()
     elif message.text == '2':
         await bot.send_message(message.chat.id, text="Залиште коментар для Item 4")
-        user_comment = message.text
-        await state.update_data(item4_response=user_comment)
-        await bot.send_message(message.chat.id, text="Item 5, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
-        await ChecklistForm.next()
+        await state.set_state(ChecklistForm.Item4_comment)
+        await state.update_data(item4_response=None)
+
+@dp.message_handler(state=ChecklistForm.Item4_comment)
+async def process_item4_comment(message: types.Message, state: FSMContext):
+    await state.update_data(item4_response=message.text)
+    await bot.send_message(message.chat.id, text="Item 5, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
+    await ChecklistForm.Item5.set()
 
 
 @dp.message_handler(state=ChecklistForm.Item5)
 async def process_item5(message: types.Message, state: FSMContext):
-
     if message.text == '1':
-        await bot.send_message(message.chat.id, text="Чекліст завершено. Обробка результатів...")
-        await process_checklist_and_send_report(state)
-        await state.finish()
+        await ChecklistForm.next()
     elif message.text == '2':
-        await bot.send_message(message.chat.id, text="Залиште коментар для Item 5:")
-        user_comment = message.text
-        await state.update_data(item5_response=user_comment)
+        await bot.send_message(message.chat.id, text="Залиште коментар для Item 5")
+        await state.set_state(ChecklistForm.Item5_comment)
+        await state.update_data(item5_response=None)
+
+@dp.message_handler(state=ChecklistForm.Item5_comment)
+async def process_item5_comment(message: types.Message, state: FSMContext):
+    await state.update_data(item5_response=message.text)
+    await bot.send_message(message.chat.id, text="Якщо треба, залиште лінк на фото, що стосується питання. Пропустіть 1. 2 - Залишити")
+    await ChecklistForm.Photo.set()
+
+
+@dp.message_handler(state=ChecklistForm.Photo)
+async def photo_url(message: types.Message, state: FSMContext):
+    if message.text == '1':
         await process_checklist_and_send_report(state)
+    if message.text == '2':
+        await bot.send_message(message.chat.id, text="Залиште URL")
+        await state.set_state(ChecklistForm.Photo_processing)
+        await state.update_data(item5_response=None)
+
+@dp.message_handler(state=ChecklistForm.Photo_processing)
+async def photo_url_processing(message: types.Message, state: FSMContext):
+    await state.update_data(photo_url_reponse=message.text)
+    await bot.send_message(message.chat.id, text="Чекліст завершено. Обробка Вашого запиту. Зачекайте.")
+    await process_checklist_and_send_report(state)   #  return?
 
 
 async def process_checklist_and_send_report(state: FSMContext):
@@ -136,36 +162,24 @@ async def process_checklist_and_send_report(state: FSMContext):
         data.get('item3_response'),
         data.get('item4_response'),
         data.get('item5_response'),
+        data.get('photo_url_reponse')
     ]
     print(checklist_responses); print(location); print(data)
-     
-    # ... TODO
-
-    # Reset the state
     await bot.send_message(state.user, text="Чекліст завершено. Дякуємо!")
+    # Clears data, resets state
     await state.finish()
 
 
-""" example of a possible solution of wrong data written """
-# @dp.message_handler(state=ChecklistForm.Item1)
-# async def process_item1(message: types.Message, state: FSMContext):
-#     if message.text == '1':
-#         # Go to the next item
-#         await ChecklistForm.next()
-#     elif message.text == '2':
-#         await bot.send_message(message.chat.id, text="Залиште коментар для Item 1")
-#         # Set the state to collect comments for Item 1
-#         await state.set_state(ChecklistForm.Item1_comment)
-#         await state.update_data(item1_response=None)
+# TODO sending to chatgpt and retrieving to user
 
-# @dp.message_handler(state=ChecklistForm.Item1_comment)
-# async def process_item1_comment(message: types.Message, state: FSMContext):
-#     # Collect the comment for Item 1
-#     await state.update_data(item1_response=message.text)
-#     await state.set_state(ChecklistForm.next())
+""" 
+A minor mistake when i did aiogram 3.3, that I tried local manual way to store answers, 
+instead of aiogram FSM (Finite state machine). It is available in aiogram 2.25, 3+, too.  
+I used: 
+user_responses = defaultdict(lambda: {"Location": None, "Checklist": [], "Photo": None})
+"""
 
-
-""" my past efforts with for loop. In vain... """
+""" my past efforts with for loop. In vain, also """
     # for item in checklist:
     #     await message.answer(f"{item['Item']}, введіть цифру 1 | 2:")
     #     user_choice = message.text
@@ -175,24 +189,4 @@ async def process_checklist_and_send_report(state: FSMContext):
     #         item["Response"] = user_input
     #     else:
     #         pass
-
     # print(user_responses)
-
-
-              #  test
-# @dp.message_handler(state=ChecklistForm.Item2)
-# async def process_item2(message: types.Message, state: FSMContext):
-#     await bot.send_message(message.chat.id, text="Item 2, введіть цифру 1 - Пропустити | 2 - Залишити коментар.")
-
-#     if message.text == '1':
-#         await ChecklistForm.next()
-#     elif message.text == '2':
-#         await bot.send_message(message.chat.id, text="Залиште коментар для Item 2")
-#         await state.set_state(ChecklistForm.Item2_comment)
-#         await state.update_data(item2_response=None)  # Initialize response
-
-# @dp.message_handler(state=ChecklistForm.Item2_comment)
-# async def process_item2_comment(message: types.Message, state: FSMContext):
-#     # Collect the comment for Item 2
-#     await state.update_data(item2_response=message.text)
-#     await state.set_state(ChecklistForm.next())  # Now move to the next state
