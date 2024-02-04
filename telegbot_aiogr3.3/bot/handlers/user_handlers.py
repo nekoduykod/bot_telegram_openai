@@ -23,7 +23,7 @@ user_responses = defaultdict(lambda: {"Location": None, "Checklist": [], "Photo"
 
 @user_router.message(Command('start'))
 async def welcome(message: types.Message) -> None:
-    """ Process the command 'start' """
+    """ the command 'start' """
     reply_text = f'{hbold(message.from_user.first_name)}, ласкаво прошу. Почнімо'
 
     await message.answer(
@@ -50,7 +50,7 @@ async def choose_location(message: types.Message):
     await message.answer(f"Щодо {checklist[0]}, який твій вибір?")
 
 
-@user_router.message(lambda message: message.text in ['1', '2']) # (F.text.in_(['1', '2']))
+@user_router.message(lambda message: message.text in ['1', '2']) # it is (F.text.in_(['1', '2']))
 async def handle_checklist_item(message: types.Message):
     user_id = message.from_user.id
     current_checklist_item = user_responses[user_id]["Checklist"].pop(0)
@@ -71,15 +71,15 @@ async def handle_checklist_comment(message: types.Message):
         current_checklist_item = user_responses[user_id]["Checklist"][0]
         current_checklist_item["Response"] = message.text
         user_responses[user_id].pop("CommentState", None)
-        # Перевіряв, чи доєднались дані до user_responses
         print(user_responses)
         await continue_checklist(user_id)
+
     else:
-        print("Checklist is done, handle accordingly")
+        print("Checklist is done")
 
 ''' 
     TODO https://docs.aiogram.dev/uk-ua/latest/dispatcher/finite_state_machine/index.html  
-    user_responses - треш. Краще розібратися з FSM, та інтегрувати цю логіку
+    user_responses - треш, дарма вручну. Ліпше FSM інтегрувати (стейт, memorystorage)
 '''
 
 

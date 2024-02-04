@@ -7,13 +7,13 @@ from bot.handlers.user_handlers import user_router
 
 
 def register_routers(dp: Dispatcher) -> None:
-    """Registers routers"""
+    """it registers routers"""
 
     dp.include_router(user_router)
 
 
 async def main() -> None:
-    """It will execute our event loop and start polling."""
+    """it will execute our event loop and start polling."""
     
     dp = Dispatcher()
 
@@ -22,5 +22,5 @@ async def main() -> None:
     await dp.start_polling(bot)
 
 if __name__ == '__main__':
-    # Start the bot 
+    # starts the bot 
     asyncio.run(main())
