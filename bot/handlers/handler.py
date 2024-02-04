@@ -1,3 +1,4 @@
+import logging
 import json
 
 from aiogram import Dispatcher, types
@@ -14,6 +15,9 @@ from bot.keyboards import locations_kb
 
 import openai
 from token_api import OPENAI_API_KEY
+
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 
 storage = MemoryStorage()
@@ -226,10 +230,9 @@ async def process_checklist_and_send_report(state: FSMContext):
         await state.finish()
 
     except openai.error.OpenAIError as e:
-        # Для винятків можна logging використовувати замість print
-        print(f"OpenAI API Error: {e}")
+        logging.error(f"OpenAI API Error: {e}")
         await bot.send_message(state.user, text="Халепа. Перепрошую. Над проблемою працюють, зверніться пізніше.")
 
     except Exception as e:
-        print(f"Unexpected Error: {e}")
+        logging.exception(f"Unexpected Error: {e}")
         await bot.send_message(state.user, text="Йой! Технічні проблеми. Буль ласка, зверніться пізніше.")
