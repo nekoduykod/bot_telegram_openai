@@ -6,7 +6,9 @@ venv\scripts\activate
 
 pip install -r requirements.txt
 
-py main.py ; open Telegram API bot and enjoy
+py main.py
+
+Finally, open Telegram API bot. Enjoy.
 
 ## Results
 
@@ -17,6 +19,4 @@ py main.py ; open Telegram API bot and enjoy
 <img src="images/telegram_bot3.jpg"/>
 
 ## 
-Поки що не маю ChatGpt 4, щоб відкорегувати/покращити ChatGPT запит/відповідь
-
-telegbot_aiogr3.3 папку проігноруйте.
+p.s telegbot_aiogr3.3 папку проігноруйте
