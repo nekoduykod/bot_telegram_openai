@@ -1,6 +1,5 @@
 import asyncio
 
-from bot_instance import bot
 from bot.handlers.handler import dp
 
 async def main() -> None:

@@ -23,7 +23,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 storage = MemoryStorage()
 dp = Dispatcher(bot, storage=storage)
 
-# Кожен атрибут класу - це "стейт", в якому бот можу бути при діалозі. Очікує відповідь користувача
+
+# Кожен атрибут класу - це "стейт", в якому бот можу бути при діалозі. Очікує відповідь користувача. 
 class ChecklistForm(StatesGroup):
     Location = State()
     Item1 = State()
@@ -54,7 +55,14 @@ async def welcome(message: types.Message, state: FSMContext) -> None:
     await ChecklistForm.Location.set()
 
 
-# Обирай Локацію з locations_kb.menu. *Якщо 'Location 2-5' - скопію 4 рази хендлер & зміни Num ; або re модуль якщо питання однакові
+''' 
+Якщо додати 'Location 2-5' -> скопіюй в handler.py всі Items + 4 рази, але з різними назвами функцій (уникнення конфліктів),
+та StatesGroup. + handler з if message.text == 'Location 1': ... , ...=='Location 2': так далі, що створить +1000
+рядків коду. Вирішив залишити Location 1 з його 6-ма checklist. Розбиваючи по файлах loc1_handler.py, loc2.py,
+loc3.py... - не переходило в next стейт, допоки не копіював state snippets саме в handler.py. Лише тоді воно бачило їх.
+Цікаво, чи дозволяє aiogram 2.25 розбивати на файли StatesGroups. Напевно, версія aiogram 3.3+ .
+'''
+# Обирай Локацію з locations_kb.menu.
 @dp.message_handler(lambda message: message.text == 'Location 1', state=ChecklistForm.Location)
 async def choose_location(message: types.Message, state: FSMContext):
     location = message.text
