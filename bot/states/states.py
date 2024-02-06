@@ -1,0 +1,81 @@
+from aiogram.dispatcher.filters.state import State, StatesGroup
+
+# Кожен атрибут класу - це "стейт", в якому бот можу бути при діалозі. Очікує відповідь користувача. 
+class ChooseLoc(StatesGroup):
+    Location = State()
+
+class Loc1Form(StatesGroup):
+    Location1 = State()
+    Item1 = State()
+    Item1_comment = State()
+    Item2 = State()
+    Item2_comment = State()
+    Item3 = State()
+    Item3_comment = State()
+    Item4 = State()
+    Item4_comment = State()
+    Item5 = State()
+    Item5_comment = State()
+    Photo = State()
+    Photo_processing = State()
+
+class Loc2Form(StatesGroup):
+    Location2 = State()
+    Item1 = State()
+    Item1_comment = State()
+    Item2 = State()
+    Item2_comment = State()
+    Item3 = State()
+    Item3_comment = State()
+    Item4 = State()
+    Item4_comment = State()
+    Item5 = State()
+    Item5_comment = State()
+    Photo = State()
+    Photo_processing = State()
+
+class Loc3Form(StatesGroup):
+    Location3 = State()
+    Item1 = State()
+    Item1_comment = State()
+    Item2 = State()
+    Item2_comment = State()
+    Item3 = State()
+    Item3_comment = State()
+    Item4 = State()
+    Item4_comment = State()
+    Item5 = State()
+    Item5_comment = State()
+    Photo = State()
+    Photo_processing = State()
+
+class Loc4Form(StatesGroup):
+    Location4 = State()
+    Item1 = State()
+    Item1_comment = State()
+    Item2 = State()
+    Item2_comment = State()
+    Item3 = State()
+    Item3_comment = State()
+    Item4 = State()
+    Item4_comment = State()
+    Item5 = State()
+    Item5_comment = State()
+    Photo = State()
+    Photo_processing = State()
+
+
+class Loc5Form(StatesGroup):
+    Location5 = State()
+    Item1 = State()
+    Item1_comment = State()
+    Item2 = State()
+    Item2_comment = State()
+    Item3 = State()
+    Item3_comment = State()
+    Item4 = State()
+    Item4_comment = State()
+    Item5 = State()
+    Item5_comment = State()
+    Photo = State()
+    Photo_processing = State()

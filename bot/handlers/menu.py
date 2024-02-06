@@ -3,7 +3,6 @@ import re
 from aiogram import Dispatcher, types
 from aiogram.dispatcher.filters import Command
 
-from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher import FSMContext
 
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
@@ -12,22 +11,12 @@ from aiogram.utils.markdown import hbold
 from bot_instance import bot
 from bot.keyboards import locations_kb
 
-from .loc_1_handler import Loc1Form
-from .loc_2_handler import Loc2Form
-from .loc_3_handler import Loc3Form
-from .loc_4_handler import Loc4Form
-from .loc_5_handler import Loc5Form
-
-from .request_chatgpt import process_checklist_and_send_report
+from ..states.states import ChooseLoc, Loc1Form, Loc2Form, Loc3Form, Loc4Form, Loc5Form
+from ..functions.request_chatgpt import process_checklist_and_send_report
 
 
-storage = MemoryStorage()
+storage = MemoryStorage()    # TODO this must be separate   # TODO text/data = separate, code = separate
 dp = Dispatcher(bot, storage=storage)
-
-
-# Кожен атрибут класу - це "стейт", в якому бот можу бути при діалозі. Очікує відповідь користувача. 
-class ChooseLoc(StatesGroup):
-    Location = State()
 
 
 # Вітання

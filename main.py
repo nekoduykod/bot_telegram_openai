@@ -1,6 +1,6 @@
 import asyncio
 
-from bot.handlers.handler_main import dp
+from bot.handlers.menu import dp
 
 async def main() -> None:
     """it executes the event loop and start polling"""
