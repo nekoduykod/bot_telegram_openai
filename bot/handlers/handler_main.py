@@ -54,11 +54,11 @@ async def handle_location(message: types.Message, state: FSMContext):
     await bot.send_message(message.chat.id, text="Item 1 => Пропустити - 1  | Залишити коментар - 2.")
     # await state.finish()
     if message.text == 'Location 1':
-        await state.set_state(Loc1Form.Item1)  # TODO change to  Loc1Form.Item1
+        await state.set_state(Loc1Form.Item1)
     elif message.text == 'Location 2':
-        await state.set_state(Loc2Form.Item1)  # TODO change to  Loc2Form.Item1
+        await state.set_state(Loc2Form.Item1)
     elif message.text == 'Location 3':
-        await state.set_state(Loc3Form.Item1) # TODO change to  Loc3Form.Item1
+        await state.set_state(Loc3Form.Item1)
     elif message.text == 'Location 4':
         await state.set_state(Loc4Form.Item1)
     elif message.text == 'Location 5':
