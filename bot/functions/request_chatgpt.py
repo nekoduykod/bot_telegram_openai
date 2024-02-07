@@ -1,11 +1,11 @@
 import logging
 import json
-import openai
 
-from bot_instance import bot
+import openai
 from aiogram.dispatcher import FSMContext
 
-from token_api import OPENAI_API_KEY
+from bot.loader.loader import bot
+from bot.loader.config import OPENAI_API_KEY
 
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -23,7 +23,6 @@ async def process_checklist_and_send_report(state: FSMContext):
             data.get('item5_response'),
             data.get('photo_url_reponse')
         ]
-        # TODO loggin print data if needed
         data_string = json.dumps(data)
 
         prompt_text = "Analyze the following questions/data:"

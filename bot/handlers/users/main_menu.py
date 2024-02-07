@@ -1,22 +1,15 @@
 import re
 
-from aiogram import Dispatcher, types
+from bot.loader.loader import bot, dp
+from bot.keyboards import locations_menu
+
+from aiogram import types
 from aiogram.dispatcher.filters import Command
-
 from aiogram.dispatcher import FSMContext
-
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.utils.markdown import hbold
 
-from bot_instance import bot
-from bot.keyboards import locations_kb
-
-from ..states.states import ChooseLoc, Loc1Form, Loc2Form, Loc3Form, Loc4Form, Loc5Form
-from ..functions.request_chatgpt import process_checklist_and_send_report
-
-
-storage = MemoryStorage()    # TODO this must be separate   # TODO text/data = separate, code = separate
-dp = Dispatcher(bot, storage=storage)
+from bot.states.states import ChooseLoc, Loc1Form, Loc2Form, Loc3Form, Loc4Form, Loc5Form
+from bot.functions.request_chatgpt import process_checklist_and_send_report
 
 
 # Вітання
@@ -28,7 +21,7 @@ async def welcome(message: types.Message, state: FSMContext) -> None:
     await bot.send_message(
         message.chat.id,
         text=reply_text,
-        reply_markup=locations_kb.menu
+        reply_markup=locations_menu.menu
     )
     await ChooseLoc.Location.set()
 
