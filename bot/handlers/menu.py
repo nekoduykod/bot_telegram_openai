@@ -41,7 +41,6 @@ async def handle_location(message: types.Message, state: FSMContext):
     await bot.send_message(message.chat.id, text=f"{location}. Мерщій заповни чекліст.",
                             reply_markup=types.ReplyKeyboardRemove())
     await bot.send_message(message.chat.id, text="Item 1 => Пропустити - 1  | Залишити коментар - 2.")
-    # await state.finish()
     if message.text == 'Location 1':
         await state.set_state(Loc1Form.Item1)
     elif message.text == 'Location 2':
@@ -692,7 +691,7 @@ async def process_loc5_item5_comment(message: types.Message, state: FSMContext):
     await Loc5Form.next()
 
 
-# Чек 6 (фото) Лок 5     # photo_processing snippets can be made unique for all Locations if needed. DRY. 
+# Чек 6 (фото) Лок 5     # photo_processing snippets can be made unique for all Locations if needed. If DRY needed. 
 @dp.message_handler(state=Loc5Form.Photo)
 async def photo_loc5_url(message: types.Message, state: FSMContext):
     if message.text == '1':

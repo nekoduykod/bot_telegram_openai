@@ -1,6 +1,6 @@
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
-# Кожен атрибут класу - це "стейт", в якому бот можу бути при діалозі. Очікує відповідь користувача. 
+
 class ChooseLoc(StatesGroup):
     Location = State()
 
