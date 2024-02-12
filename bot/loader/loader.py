@@ -5,14 +5,13 @@ from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 # from utils.db_api.postgresql import Database
-from data.config import BOT_TOKEN
-from utils.set_bot_commands import set_default_commands
+from bot.data.config import BOT_TOKEN
+from bot.utils.set_bot_commands import set_default_commands
 
 
 bot = Bot(token=BOT_TOKEN, parse_mode='HTML')
 storage = MemoryStorage() 
 dp = Dispatcher(bot, storage=storage)
-
 
 async def on_startup(dp):
     from utils.notify_admins import on_startup_notify

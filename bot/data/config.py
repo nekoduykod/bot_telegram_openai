@@ -11,3 +11,5 @@ PGUSER = env("PGUSER")
 PGPASSWORD = env("PGPASSWORD")
 
 IP = env("IP")
+
+OPENAI_API_KEY = env("OPENAI_API_KEY")
