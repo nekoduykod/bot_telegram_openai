@@ -2,46 +2,30 @@ import re
 
 from aiogram import types
 from aiogram.types import CallbackQuery
-from aiogram.dispatcher.filters import Command
 from aiogram.dispatcher import FSMContext
-from aiogram.utils.markdown import hbold
 
 from bot.loader.loader import bot, dp
-from bot.keyboards import keyboards_menu
+from keyboards import keyboards_menu
 from bot.handlers.users.photo_url import LeavePhoto
-from bot.states.states import ChooseLoc, Loc1Form, Loc2Form, Loc3Form, Loc4Form
-from bot.data.text import welcome_text, item1_text, item2_text, item3_text, item4_text, item5_text, num_one_two_text, leave_photo_url_text
-
-
-# Вітання
-@dp.message_handler(Command('start'))
-async def welcome(message: types.Message, state: FSMContext) -> None:
-    """ command '/start' """
-    reply_text = f'{hbold(message.from_user.first_name)}, {welcome_text}'
-
-    await bot.send_message(
-        message.chat.id,
-        text=reply_text,
-        reply_markup=keyboards_menu.menu
-    )
-    await ChooseLoc.Location.set()
+from bot.states import ChooseLoc, Loc1Form, Loc2Form, Loc3Form, Loc4Form
+from bot.data.text import item1_text, item2_text, item3_text, item4_text, item5_text, num_one_two_text, leave_photo_url_text
 
 
 # Обирай Локацію з locations_kb.menu.
 @dp.message_handler(lambda message: bool(re.match("^Location [1-4]$", message.text)), state=ChooseLoc.Location)
-async def handle_location(query: CallbackQuery, state: FSMContext):
-    location = query.data
+async def handle_location(call: CallbackQuery, state: FSMContext):
+    location = call.data
     await state.update_data(location=location)
-    await bot.send_message(query.message.chat.id, text=f"{location}. Мерщій заповни чекліст.", 
+    await bot.send_message(call.message.chat.id, text=f"{location}. Мерщій заповни чекліст.", 
                                             reply_markup=keyboards_menu.inline_kb)
-    await bot.send_message(query.message.chat.id, text=item1_text)
+    await bot.send_message(call.message.chat.id, text=item1_text)
     if location == '1':
         await Loc1Form.Item1.set()
-    elif location == 'location_2':
+    elif location == '2':
         await Loc2Form.Item1.set()
-    elif location == 'location_3':
+    elif location == '3':
         await Loc3Form.Item1.set()
-    elif location == 'location_4':
+    elif location == '4':
         await Loc4Form.Item1.set()
 
 

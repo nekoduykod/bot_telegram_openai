@@ -4,8 +4,8 @@ import json
 import openai
 from aiogram.dispatcher import FSMContext
 
-from bot.loader.loader import bot
-from bot.loader.config import OPENAI_API_KEY
+from loader.loader import bot
+from data.config import OPENAI_API_KEY
 
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

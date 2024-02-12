@@ -3,7 +3,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMar
 
 menu = ReplyKeyboardMarkup(resize_keyboard=True).row(
             KeyboardButton("/start"),
-            KeyboardButton("/exit") # вийти з Location checlist на головне меню
+            KeyboardButton("/exit")
 )
 
 inline_kb = InlineKeyboardMarkup(resize_keyboard=True).add(

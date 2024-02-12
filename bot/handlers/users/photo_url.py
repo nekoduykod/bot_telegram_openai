@@ -11,7 +11,7 @@ from bot.data.text import num_one_two_text, leave_photo_url_text
 async def leave_photo_url(message: types.Message, state: FSMContext):
     if message.text == '1':
         await state.update_data(photo_url_reponse='Skip')
-        await bot.send_message(message.chat.id, text="Усьо! Обробляємо. Покірно почекайте, будь ласка.")
+        await bot.send_message(message.chat.id, text="Усьо! Обробляємо. Покірно почекайте.")
         await process_checklist_and_send_report(state)
     elif message.text == '2':
         await bot.send_message(message.chat.id, text=leave_photo_url_text)
