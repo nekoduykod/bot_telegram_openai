@@ -16,8 +16,6 @@ class Loc1Form(StatesGroup):
     Item4_comment = State()
     Item5 = State()
     Item5_comment = State()
-    Photo = State()
-    Photo_processing = State()
 
 class Loc2Form(StatesGroup):
     Location2 = State()
@@ -31,8 +29,6 @@ class Loc2Form(StatesGroup):
     Item4_comment = State()
     Item5 = State()
     Item5_comment = State()
-    Photo = State()
-    Photo_processing = State()
 
 class Loc3Form(StatesGroup):
     Location3 = State()
@@ -46,8 +42,6 @@ class Loc3Form(StatesGroup):
     Item4_comment = State()
     Item5 = State()
     Item5_comment = State()
-    Photo = State()
-    Photo_processing = State()
 
 class Loc4Form(StatesGroup):
     Location4 = State()
