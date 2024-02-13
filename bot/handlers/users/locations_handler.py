@@ -12,12 +12,13 @@ from bot.data.text import item1_text, item2_text, item3_text, item4_text, item5_
 
 
 # Обирай Локацію з locations_kb.menu.
-@dp.message_handler(lambda message: bool(re.match("^Location [1-4]$", message.text)), state=ChooseLoc.Location)
-async def handle_location(call: CallbackQuery, state: FSMContext):
+@dp.callback_query_handler(lambda query: bool(re.match("^Location [1-4]$", query.data)), state="*")
+async def handle_location_callback(call: CallbackQuery, state: FSMContext):
+    print('10')
     location = call.data
     await state.update_data(location=location)
     await bot.send_message(call.message.chat.id, text=f"{location}. Мерщій заповни чекліст.", 
-                                            reply_markup=keyboards_menu.inline_kb)
+                                            reply_markup=keyboards_menu.menu)
     await bot.send_message(call.message.chat.id, text=item1_text)
     if location == '1':
         await Loc1Form.Item1.set()
