@@ -3,7 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.types import Message
 from aiogram.utils.markdown import hbold
 
-from bot.loader.loader import bot, dp
+from loader import bot, dp
 from bot.keyboards import keyboards_menu
 from bot.states.states import ChooseLoc
 from bot.data.text import welcome_text

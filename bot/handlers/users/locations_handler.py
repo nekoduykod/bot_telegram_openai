@@ -4,10 +4,9 @@ from aiogram import types
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
 
-from bot.loader.loader import bot, dp
-from bot.handlers.users import start             # ?
+from loader import bot, dp
 from bot.keyboards import keyboards_menu
-from bot.handlers.users.photo_url import LeavePhoto
+from bot.handlers.users.photo_url_handler import LeavePhoto
 from bot.states.states import ChooseLoc, Loc1Form, Loc2Form, Loc3Form, Loc4Form
 from bot.data.text import item1_text, item2_text, item3_text, item4_text, item5_text, num_one_two_text, leave_photo_url_text
 

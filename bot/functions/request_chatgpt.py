@@ -4,7 +4,7 @@ import json
 import openai
 from aiogram.dispatcher import FSMContext
 
-from bot.loader.loader import bot
+from loader import bot
 from bot.data.config import OPENAI_API_KEY
 
 

@@ -1,1 +1,1 @@
-from .keyboards_menu import menu, inline_kb
+from . import keyboards_menu

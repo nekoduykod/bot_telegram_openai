@@ -1,6 +1,6 @@
 from aiogram import types
 
-from bot.loader.loader import dp
+from loader import dp
 
 
 @dp.message_handler(content_types=types.ContentType.PHOTO)
