@@ -12,21 +12,21 @@ from bot.data.text import item1_text, item2_text, item3_text, item4_text, item5_
 
 
 # Обирай Локацію з locations_kb.menu.
-@dp.callback_query_handler(lambda query: bool(re.match("^Location [1-4]$", query.data)), state="*")
+@dp.callback_query_handler(lambda query: re.match('^Loc[1-4]$', query.data), state='*')
 async def handle_location_callback(call: CallbackQuery, state: FSMContext):
     print('10')
     location = call.data
     await state.update_data(location=location)
-    await bot.send_message(call.message.chat.id, text=f"{location}. Мерщій заповни чекліст.", 
-                                            reply_markup=keyboards_menu.menu)
-    await bot.send_message(call.message.chat.id, text=item1_text)
-    if location == '1':
+    # await bot.send_message(call.message.chat.id, text=f"Location {location}. Мерщій заповни чекліст. 1 - пропустити. 2 - Залишити коментар.", 
+    #                                         reply_markup=keyboards_menu.menu)
+    # await bot.send_message(call.message.chat.id, text=item1_text)
+    if call.data == 'Loc1':
         await Loc1Form.Item1.set()
-    elif location == '2':
+    elif call.data == 'Loc2':
         await Loc2Form.Item1.set()
-    elif location == '3':
+    elif call.data == 'Loc3':
         await Loc3Form.Item1.set()
-    elif location == '4':
+    elif call.data == 'Loc4':
         await Loc4Form.Item1.set()
 
 
@@ -35,11 +35,11 @@ async def handle_location_callback(call: CallbackQuery, state: FSMContext):
 async def process_loc1_item1(message: types.Message, state: FSMContext):
     if message.text == '1':
        await state.update_data(item1_response='Skip')
-       await state.set_state(Loc1Form.Item2) # або => await Loc1Form.Item2.set()
+       await Loc1Form.Item2.set()
        await bot.send_message(message.chat.id, text=item2_text)
     elif message.text == '2':
         await bot.send_message(message.chat.id, text="Коментар для Item 1:")
-        await state.set_state(Loc1Form.Item1_comment)
+        await Loc1Form.Item2.set()
         await state.update_data(item1_response=None)
     else:
         await bot.send_message(message.chat.id, text=num_one_two_text)
@@ -49,7 +49,7 @@ async def process_loc1_item1_comment(message: types.Message, state: FSMContext):
     await state.update_data(item1_response=message.text)
 
     await bot.send_message(message.chat.id, text=item2_text)
-    await Loc1Form.next()
+    await Loc1Form.Item2.set()
 
 
 # Чек 2 Лок 1

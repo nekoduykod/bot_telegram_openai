@@ -9,4 +9,5 @@ from bot.utils.misc import rate_limit
 @dp.message_handler(Command("help"))
 async def start(message: Message):
     await message.answer("Choose location and answer questions💬\n"
-                         "- You can skip or answer✅\n")
+                         "- You can skip or answer✅\n"
+                         " - /exit - leave location\n")
