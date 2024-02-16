@@ -12,9 +12,8 @@ from bot.data.text import item1_text, item2_text, item3_text, item4_text, item5_
 
 
 # Обирай Локацію з locations_kb.menu.
-@dp.callback_query_handler(lambda query: re.match('^Loc[1-4]$', query.data), state='*')
+@dp.callback_query_handler(lambda query: re.match('^Loc[1-4]$', query.data), state="*")
 async def handle_location_callback(call: CallbackQuery, state: FSMContext):
-    print('10')
     location = call.data
     await state.update_data(location=location)
     # await bot.send_message(call.message.chat.id, text=f"Location {location}. Мерщій заповни чекліст. 1 - пропустити. 2 - Залишити коментар.", 
@@ -28,6 +27,13 @@ async def handle_location_callback(call: CallbackQuery, state: FSMContext):
         await Loc3Form.Item1.set()
     elif call.data == 'Loc4':
         await Loc4Form.Item1.set()
+
+# found example but still not working 
+# dp.register_callback_query_handler(process_gender_search, lambda query: query.data in ('1', '0'), state=Search.gender)
+# async def process_gender_search(query: types.CallbackQuery, state: FSMContext):
+#     await state.update_data(gender=query.data)
+#     await Search.next()
+#     await query.message.edit_text(hbold(' :'), reply_markup=city_search_kb(), parse_mode=ParseMode.HTML)
 
 
 # Чек 1 Лок 1
