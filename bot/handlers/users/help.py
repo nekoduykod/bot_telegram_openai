@@ -1,7 +1,7 @@
 from aiogram.dispatcher.filters import Command
 from aiogram.types import Message
 
-from loader import dp
+from main import dp
 from bot.utils.misc import rate_limit
 
 

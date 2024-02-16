@@ -4,7 +4,7 @@ import json
 import openai
 from aiogram.dispatcher import FSMContext
 
-from loader import bot
+from main import bot
 from bot.data.config import OPENAI_API_KEY
 
 
@@ -24,7 +24,8 @@ async def process_checklist_and_send_report(state: FSMContext):
             data.get('photo_url_reponse')
         ]
         data_string = json.dumps(data)
-
+        print(data)
+        
         prompt_text = "Analyze the following questions/data:"
 
         response = openai.Completion.create(
@@ -36,7 +37,7 @@ async def process_checklist_and_send_report(state: FSMContext):
         chatgpt_response = response.choices[0].text.strip()
 
         await bot.send_message(state.user, text=chatgpt_response)
-        await bot.send_message(state.user, text="Дякую. Сонячного дня! Звертайтесь.")
+        await bot.send_message(state.user, text="Дякую. Звертайтесь.")
 
         await state.finish()
 

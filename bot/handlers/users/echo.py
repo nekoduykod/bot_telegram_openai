@@ -1,6 +1,6 @@
 from aiogram import types
 
-from loader import dp
+from main import dp
 
 
 @dp.message_handler(content_types=types.ContentType.PHOTO)

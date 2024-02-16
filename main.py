@@ -38,4 +38,7 @@ if __name__ == '__main__':
     from aiogram import executor
     from bot.handlers.users import dp
 
-    executor.start_polling(dp, on_startup=on_startup, on_shutdown=on_shutdown)
+    executor.start_polling(dp, skip_updates=False, 
+                           on_startup=on_startup, 
+                           on_shutdown=on_shutdown, 
+                           allowed_updates=["message", "callback_query"])

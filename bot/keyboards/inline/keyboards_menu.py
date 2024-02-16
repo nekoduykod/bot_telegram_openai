@@ -7,8 +7,8 @@ menu = ReplyKeyboardMarkup(resize_keyboard=True).row(
 )
 
 inline_kb = InlineKeyboardMarkup(resize_keyboard=True).add(
-            InlineKeyboardButton(text="Location 1", callback_data="Loc1"),
-            InlineKeyboardButton(text="Location 2", callback_data="Loc2"),
-            InlineKeyboardButton(text="Location 3", callback_data="Loc3"),
-            InlineKeyboardButton(text="Location 4", callback_data="Loc4")
+            InlineKeyboardButton(text="Issue 1", callback_data="Issue1"),
+            InlineKeyboardButton(text="Issue 2", callback_data="Issue2"),
+            InlineKeyboardButton(text="Issue 3", callback_data="Issue3"),
+            InlineKeyboardButton(text="Issue 4", callback_data="Issue4")
 )

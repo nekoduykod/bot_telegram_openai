@@ -1,5 +1,5 @@
 from aiogram import types
-from loader import bot, dp
+from main import bot, dp
 from aiogram.dispatcher import FSMContext
 
 from bot.functions.request_chatgpt import process_checklist_and_send_report

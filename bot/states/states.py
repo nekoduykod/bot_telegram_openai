@@ -1,11 +1,10 @@
 from aiogram.dispatcher.filters.state import State, StatesGroup
 
 
-class ChooseLoc(StatesGroup):
-    Location = State()
+class ChooseButton(StatesGroup):
+    Issues = State()
 
-class Loc1Form(StatesGroup):
-    Location1 = State()
+class Issue1Form(StatesGroup):
     Item1 = State()
     Item1_comment = State()
     Item2 = State()
@@ -17,8 +16,7 @@ class Loc1Form(StatesGroup):
     Item5 = State()
     Item5_comment = State()
 
-class Loc2Form(StatesGroup):
-    Location2 = State()
+class Issue2Form(StatesGroup):
     Item1 = State()
     Item1_comment = State()
     Item2 = State()
@@ -30,8 +28,7 @@ class Loc2Form(StatesGroup):
     Item5 = State()
     Item5_comment = State()
 
-class Loc3Form(StatesGroup):
-    Location3 = State()
+class Issue3Form(StatesGroup):
     Item1 = State()
     Item1_comment = State()
     Item2 = State()
@@ -43,8 +40,7 @@ class Loc3Form(StatesGroup):
     Item5 = State()
     Item5_comment = State()
 
-class Loc4Form(StatesGroup):
-    Location4 = State()
+class Issue4Form(StatesGroup):
     Item1 = State()
     Item1_comment = State()
     Item2 = State()
