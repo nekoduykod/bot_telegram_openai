@@ -11,6 +11,8 @@
 <img src="bot/images/telegram_bot_5.jpg"/>
 
 <img src="bot/images/telegram_bot_6.jpg"/>
+
+<img src="bot/images/telegram_bot_7.jpg"/>
 ___________________________________
 
 Тестове завдання: 
