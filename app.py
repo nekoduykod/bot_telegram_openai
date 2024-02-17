@@ -1,4 +1,4 @@
-''' I`ve put everything to loader file '''
+''' I`ve put everything to main file. I did not separate into loader+app.py '''
 # # from utils.db_api.postgresql import Database
 # from bot.data.config import BOT_TOKEN
 # from bot.utils.set_bot_commands import set_default_commands

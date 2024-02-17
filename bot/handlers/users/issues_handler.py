@@ -1,7 +1,6 @@
 import re
 
 from aiogram import types
-# from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
 
 from main import bot, dp
@@ -11,46 +10,48 @@ from bot.states.states import ChooseButton, Issue1Form, Issue2Form, Issue3Form, 
 from bot.data.text import item1_text, item2_text, item3_text, item4_text, item5_text, num_one_two_text, leave_photo_url_text
 
 
-@dp.message_handler(commands=["locations"])
-async def choose_loc(message: types.Message, state: FSMContext):
+@dp.message_handler(commands=["issues"])
+async def choose_issue(message: types.Message, state: FSMContext):
     await bot.send_message(chat_id=message.from_user.id,
-                           text=f'Оберіть питання, що турбує.',
+                           text=f'Оберіть питання, що турбує.💭',
                            reply_markup=keyboards_menu.inline_kb)
     await ChooseButton.Issues.set()
 
 
 @dp.callback_query_handler(lambda query: re.match('^Issue[1-4]$', query.data), state=ChooseButton.Issues)
-async def loc_answer_callback(call: types.CallbackQuery, state: FSMContext):
+async def chosen_issue_callback(call: types.CallbackQuery, state: FSMContext):
     if call.data == 'Issue1':
         location = call.data
         await state.update_data(location=location)
-        await bot.send_message(chat_id=call.message.chat.id, text=item1_text)
-        await call.answer(text='Issue 1 обрано')
+        await bot.send_message(chat_id=call.message.chat.id, text=item1_text, reply_markup=types.ReplyKeyboardRemove())
+        await call.answer(text='Issue 1 chosen')
         await Issue1Form.Item1.set()
 
     elif call.data == 'Issue2':
         location = call.data
         await state.update_data(location=location)
-        await bot.send_message(chat_id=call.message.chat.id, text=item1_text)
-        await call.answer(text='Issue 2 обрано')
+        await bot.send_message(chat_id=call.message.chat.id, text=item1_text, reply_markup=types.ReplyKeyboardRemove())
+        await call.answer(text='Issue 2 chosen')
         await Issue2Form.Item1.set()
 
     elif call.data == 'Issue3':
         location = call.data
         await state.update_data(location=location)
-        await bot.send_message(chat_id=call.message.chat.id, text=item1_text)
-        await call.answer(text='Issue 3 обрано')
+        await bot.send_message(chat_id=call.message.chat.id, text=item1_text, reply_markup=types.ReplyKeyboardRemove())
+        await call.answer(text='Issue 3 chosen')
         await Issue3Form.Item1.set()
 
     elif call.data == 'Issue4':
         location = call.data
         await state.update_data(location=location)
-        await bot.send_message(chat_id=call.message.chat.id, text=item1_text)
-        await call.answer(text='Issue 4 обрано')
+        await bot.send_message(chat_id=call.message.chat.id, text=item1_text, reply_markup=types.ReplyKeyboardRemove())
+        await call.answer(text='Issue 4 chosen')
         await Issue4Form.Item1.set()
+    
+    await bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
 
 
-# Чек 1 Лок 1
+# Question 1 Issue 1
 @dp.message_handler(state=Issue1Form.Item1)
 async def process_issue1_item1(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -72,7 +73,7 @@ async def process_issue1_item1_comment(message: types.Message, state: FSMContext
     await Issue1Form.Item2.set()
 
 
-# Чек 2 Лок 1
+# Question 2 Issue 1
 @dp.message_handler(state=Issue1Form.Item2)
 async def process_issue1_item2(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -94,7 +95,7 @@ async def process_issue1_item2_comment(message: types.Message, state: FSMContext
     await Issue1Form.next()
 
 
-# Чек 3 Лок 1
+# Question 3 Issue 1
 @dp.message_handler(state=Issue1Form.Item3)
 async def process_issue1_item3(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -116,7 +117,7 @@ async def process_issue1_item3_comment(message: types.Message, state: FSMContext
     await Issue1Form.next()
 
 
-# Чек 4 Лок 1
+# Question 4 Issue 1
 @dp.message_handler(state=Issue1Form.Item4)
 async def process_issue1_item4(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -138,7 +139,7 @@ async def process_issue1_item4_comment(message: types.Message, state: FSMContext
     await Issue1Form.next()
 
 
-# Чек 5 Лок 1
+# Question 5 Issue 1
 @dp.message_handler(state=Issue1Form.Item5)
 async def process_issue1_item5(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -160,7 +161,7 @@ async def process_issue1_item5_comment(message: types.Message, state: FSMContext
     await state.set_state(LeavePhoto.URL)
 
 
-# Чек 1 Лок 2
+# Question 1 Issue 2
 @dp.message_handler(state=Issue2Form.Item1)
 async def process_issue2_item1(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -182,7 +183,7 @@ async def process_issue2_item1_comment(message: types.Message, state: FSMContext
     await Issue2Form.next()
 
 
-# Чек 2 Лок 2
+# Question 2 Issue 2
 @dp.message_handler(state=Issue2Form.Item2)
 async def process_issue2_item2(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -204,7 +205,7 @@ async def process_issue2_item2_comment(message: types.Message, state: FSMContext
     await Issue2Form.next()
 
 
-# Чек 3 Лок 2
+# Question 3 Issue 2
 @dp.message_handler(state=Issue2Form.Item3)
 async def process_issue2_item3(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -226,7 +227,7 @@ async def process_issue2_item3_comment(message: types.Message, state: FSMContext
     await Issue2Form.next()
 
 
-# Чек 4 Лок 2
+# Question 4 Issue 2
 @dp.message_handler(state=Issue2Form.Item4)
 async def process_issue2_item4(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -248,7 +249,7 @@ async def process_issue2_item4_comment(message: types.Message, state: FSMContext
     await Issue2Form.next()
 
 
-# Чек 5 Лок 2
+# Question 5 Issue 2
 @dp.message_handler(state=Issue2Form.Item5)
 async def process_issue2_item5(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -270,7 +271,7 @@ async def process_issue2_item5_comment(message: types.Message, state: FSMContext
     await state.set_state(LeavePhoto.URL)
 
 
-# Чек 1 Лок 3
+# Question 1 Issue 3
 @dp.message_handler(state=Issue3Form.Item1)
 async def process_issue3_item1(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -292,7 +293,7 @@ async def process_issue3_item1_comment(message: types.Message, state: FSMContext
     await Issue3Form.next()
 
 
-# Чек 2 Лок 3
+# Question 2 Issue 3
 @dp.message_handler(state=Issue3Form.Item2)
 async def process_issue3_item2(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -314,7 +315,7 @@ async def process_issue3_item2_comment(message: types.Message, state: FSMContext
     await Issue3Form.next()
 
 
-# Чек 3 Лок 3
+# Question 3 Issue 3
 @dp.message_handler(state=Issue3Form.Item3)
 async def process_issue3_item3(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -336,7 +337,7 @@ async def process_issue3_item3_comment(message: types.Message, state: FSMContext
     await Issue3Form.next()
 
 
-# Чек 4 Лок 3
+# Question 4 Issue 3
 @dp.message_handler(state=Issue3Form.Item4)
 async def process_issue3_item4(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -358,7 +359,7 @@ async def process_issue3_item4_comment(message: types.Message, state: FSMContext
     await Issue3Form.next()
 
 
-# Чек 5 Лок 3
+# Question 5 Issue 3
 @dp.message_handler(state=Issue3Form.Item5)
 async def process_issue3_item5(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -380,7 +381,7 @@ async def process_issue3_item5_comment(message: types.Message, state: FSMContext
     await state.set_state(LeavePhoto.URL)
 
 
-# Чек 1 Лок 4
+# Question 1 Issue 4
 @dp.message_handler(state=Issue4Form.Item1)
 async def process_issue4_item1(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -402,7 +403,7 @@ async def process_issue4_item1_comment(message: types.Message, state: FSMContext
     await Issue4Form.next()
 
 
-# Чек 2 Лок 4
+# Question 2 Issue 4
 @dp.message_handler(state=Issue4Form.Item2)
 async def process_issue4_item2(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -424,7 +425,7 @@ async def process_issue4_item2_comment(message: types.Message, state: FSMContext
     await Issue4Form.next()
 
 
-# Чек 3 Лок 4
+# Question 3 Issue 4
 @dp.message_handler(state=Issue4Form.Item3)
 async def process_issue4_item3(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -446,7 +447,7 @@ async def process_issue4_item3_comment(message: types.Message, state: FSMContext
     await Issue4Form.next()
 
 
-# Чек 4 Лок 4
+# Question 4 Issue 4
 @dp.message_handler(state=Issue4Form.Item4)
 async def process_issue4_item4(message: types.Message, state: FSMContext):
     if message.text == '1':
@@ -468,7 +469,7 @@ async def process_issue4_item4_comment(message: types.Message, state: FSMContext
     await Issue4Form.next()
 
 
-# Чек 5 Лок 4
+# Question 5 Issue 4
 @dp.message_handler(state=Issue4Form.Item5)
 async def process_issue4_item5(message: types.Message, state: FSMContext):
     if message.text == '1':
