@@ -1,3 +1,17 @@
+## Overview
+
+<img src="bot/images/telegram_bot_1.jpg"/>
+
+<img src="bot/images/telegram_bot_2.jpg"/>
+
+<img src="bot/images/telegram_bot_3.jpg"/>
+
+<img src="bot/images/telegram_bot_4.jpg"/>
+
+<img src="bot/images/telegram_bot_5.jpg"/>
+
+<img src="bot/images/telegram_bot_6.jpg"/>
+___________________________________
 Тестове завдання: 
 Бібліотеки aiogram ( версія 2.25. Перероблюю на 2.92 ) та OpenAI. 
 Завдання - простий Telegram-бот: • відправляє вітальне повідомлення користувачам при їх першому зверненні до бота;
@@ -33,15 +47,3 @@
 обрати. До локації є 5 запитань (однакові по всіх локаціях).
 На кожне питання з чек-листа є 2 варіанти - "Все чисто" і другий, який 
 треба завантажити.. Після другого коментаря треба завантажити фото.
-
-_____________________________________________________
-
-## Results
-
-<img src="bot/images/bot_start.jpg"/>
-
-<img src="bot/images/bot1.jpg"/>
-
-<img src="bot/images/bot2.jpg"/>
-
-<img src="bot/images/bot3.jpg"/>
