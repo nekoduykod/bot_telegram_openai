@@ -60,7 +60,7 @@ async def process_issue1_item1(message: types.Message, state: FSMContext):
         await bot.send_message(message.chat.id, text=item2_text)
     elif message.text == '2':
         await bot.send_message(message.chat.id, text="Коментар для Item 1:")
-        await state.set_state(Issue1Form.Item2)
+        await state.set_state(Issue1Form.Item1_comment)
         await state.update_data(item1_response=None)
     else:
         await bot.send_message(message.chat.id, text=num_one_two_text)

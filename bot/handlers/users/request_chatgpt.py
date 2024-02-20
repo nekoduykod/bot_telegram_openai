@@ -59,7 +59,7 @@ async def process_checklist_answers_for_request(state: FSMContext):
             data.get('photo_url_reponse')
         ]
         data_string = json.dumps(data)
-        print(data)
+        print(data_string)
 
         prompt_text = "Analyze the following questions/data:"
 
