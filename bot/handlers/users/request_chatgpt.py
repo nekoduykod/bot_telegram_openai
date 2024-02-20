@@ -1,10 +1,10 @@
 import logging
 import json
 
-import openai
-
-from main import bot, dp, types
 from aiogram.dispatcher import FSMContext
+
+import openai
+from main import bot, dp, types
 from bot.data.config import OPENAI_API_KEY
 
 
